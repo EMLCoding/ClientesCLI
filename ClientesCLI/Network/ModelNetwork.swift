@@ -10,18 +10,22 @@ import Foundation
 final class ModelNetwork {
     static let shared = ModelNetwork()
     
-    
-    
     func getClientes() async throws -> [Cliente] {
         guard let request = URLRequest.getRequest(url: .getClientes) else { throw APIErrors.request }
         return try await getJSON(request: request, output: [Cliente].self)
     }
     
+    func updateCliente(cliente: Cliente) async throws -> Bool {
+        var request = URLRequest.getRequest(url: .cliente.appendingPathComponent(cliente.id.uuidString), method: .put)
+        let encoder = getEncoder()
+        request?.httpBody = try? encoder.encode(cliente)
+        guard let request = request else { throw APIErrors.request }
+        return try await send(request: request)
+    }
+    
     func getJSON<Output:Codable>(request:URLRequest, output:Output.Type) async throws -> Output {
         do {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
-            decoder.dateDecodingStrategy = .formatted(.formatter) // Como en la BBDD se guardan las fechas en formato "yyyy-MM-dd", es necesario que al decodificar el JSON se indique el formato especifico
+            let decoder = getDecoder()
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let response = response as? HTTPURLResponse else { throw APIErrors.noHTTP }
             if response.statusCode == 200 {
@@ -33,6 +37,29 @@ final class ModelNetwork {
             } else {
                 do {
                     let error = try decoder.decode(VaporError.self, from: data)
+                    throw APIErrors.vapor(error.reason)
+                } catch let error as APIErrors {
+                    throw error
+                } catch {
+                    throw APIErrors.status(response.statusCode)
+                }
+            }
+        } catch let error as APIErrors {
+            throw error
+        } catch {
+            throw APIErrors.general(error)
+        }
+    }
+    
+    func send(request:URLRequest) async throws -> Bool {
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let response = response as? HTTPURLResponse else { throw APIErrors.noHTTP }
+            if response.statusCode == 200 {
+                return true
+            } else {
+                do {
+                    let error = try JSONDecoder().decode(VaporError.self, from: data)
                     throw APIErrors.vapor(error.reason)
                 } catch let error as APIErrors {
                     throw error

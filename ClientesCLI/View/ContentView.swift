@@ -13,12 +13,30 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(vm.clientes) { cliente in
-                    Text("\(cliente.nombre)")
+                    NavigationLink {
+                        ClienteView(clienteVM: ClienteVM(loadCliente: cliente))
+                    } label: {
+                        ClienteRow(cliente: cliente)
+                    }
                 }
             }
             .navigationTitle("Clientes")
         }
+        .task {
+            await vm.getClientes()
+        }
         
+    }
+}
+
+struct ClienteRow: View {
+    let cliente: Cliente
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Nombre: \(cliente.nombre)")
+            Text("Apellidos: \(cliente.apellido)")
+        }
     }
 }
 

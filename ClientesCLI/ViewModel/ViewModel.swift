@@ -11,10 +11,6 @@ final class ViewModel: ObservableObject {
     
     @Published var clientes: [Cliente] = []
     
-    init() {
-        Task { await getClientes() }
-    }
-    
     @MainActor
     func getClientes() async {
         do {

@@ -9,8 +9,8 @@ import Foundation
 
 struct Cliente: Codable, Identifiable {
     let id: UUID
-    let nombre: String
-    let apellido: String
-    let email: String
+    var nombre: String
+    var apellido: String
+    var email: String
     let createAt: Date?
 }

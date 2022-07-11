@@ -19,6 +19,7 @@ let urlBase = desa
 
 extension URL {
     static let getClientes = urlBase.appendingPathComponent("clientes")
+    static let cliente = urlBase.appendingPathComponent("cliente")
 }
 
 extension URLRequest {
