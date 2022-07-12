@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CB9E96F9287C75EE00F3D8F0 /* ClienteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E96F8287C75EE00F3D8F0 /* ClienteView.swift */; };
+		CB9E96F9287C75EE00F3D8F0 /* ClienteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E96F8287C75EE00F3D8F0 /* ClienteDetailView.swift */; };
 		CB9E96FB287C75FA00F3D8F0 /* ClienteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E96FA287C75FA00F3D8F0 /* ClienteVM.swift */; };
 		CB9E96FD287C7B6F00F3D8F0 /* Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E96FC287C7B6F00F3D8F0 /* Codable.swift */; };
 		CBD0A4E5287B35D200ADFBA5 /* ClientesCLIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0A4E4287B35D200ADFBA5 /* ClientesCLIApp.swift */; };
@@ -18,12 +18,12 @@
 		CBD0A4F6287B360800ADFBA5 /* VaporError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0A4F5287B360800ADFBA5 /* VaporError.swift */; };
 		CBD0A4F9287B362600ADFBA5 /* ModelNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0A4F8287B362600ADFBA5 /* ModelNetwork.swift */; };
 		CBD0A4FB287B365C00ADFBA5 /* NetworkDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0A4FA287B365C00ADFBA5 /* NetworkDefinition.swift */; };
-		CBD0A4FF287B373A00ADFBA5 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0A4FE287B373A00ADFBA5 /* ViewModel.swift */; };
 		CBDE23A0287B6154004FAD91 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDE239F287B6154004FAD91 /* Extensions.swift */; };
+		CBE104DD287DBEB300DBC3FB /* ClienteDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE104DC287DBEB300DBC3FB /* ClienteDetailVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CB9E96F8287C75EE00F3D8F0 /* ClienteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClienteView.swift; sourceTree = "<group>"; };
+		CB9E96F8287C75EE00F3D8F0 /* ClienteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClienteDetailView.swift; sourceTree = "<group>"; };
 		CB9E96FA287C75FA00F3D8F0 /* ClienteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClienteVM.swift; sourceTree = "<group>"; };
 		CB9E96FC287C7B6F00F3D8F0 /* Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codable.swift; sourceTree = "<group>"; };
 		CBD0A4E1287B35D200ADFBA5 /* ClientesCLI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientesCLI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,8 +35,8 @@
 		CBD0A4F5287B360800ADFBA5 /* VaporError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaporError.swift; sourceTree = "<group>"; };
 		CBD0A4F8287B362600ADFBA5 /* ModelNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelNetwork.swift; sourceTree = "<group>"; };
 		CBD0A4FA287B365C00ADFBA5 /* NetworkDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDefinition.swift; sourceTree = "<group>"; };
-		CBD0A4FE287B373A00ADFBA5 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		CBDE239F287B6154004FAD91 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		CBE104DC287DBEB300DBC3FB /* ClienteDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClienteDetailVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				CBD0A4E6287B35D200ADFBA5 /* ContentView.swift */,
-				CB9E96F8287C75EE00F3D8F0 /* ClienteView.swift */,
+				CB9E96F8287C75EE00F3D8F0 /* ClienteDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -119,8 +119,8 @@
 		CBD0A4FD287B372D00ADFBA5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				CBD0A4FE287B373A00ADFBA5 /* ViewModel.swift */,
 				CB9E96FA287C75FA00F3D8F0 /* ClienteVM.swift */,
+				CBE104DC287DBEB300DBC3FB /* ClienteDetailVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 			files = (
 				CBD0A4F9287B362600ADFBA5 /* ModelNetwork.swift in Sources */,
 				CBD0A4E7287B35D200ADFBA5 /* ContentView.swift in Sources */,
-				CB9E96F9287C75EE00F3D8F0 /* ClienteView.swift in Sources */,
+				CB9E96F9287C75EE00F3D8F0 /* ClienteDetailView.swift in Sources */,
 				CBD0A4F6287B360800ADFBA5 /* VaporError.swift in Sources */,
 				CBDE23A0287B6154004FAD91 /* Extensions.swift in Sources */,
 				CB9E96FB287C75FA00F3D8F0 /* ClienteVM.swift in Sources */,
@@ -214,7 +214,7 @@
 				CBD0A4FB287B365C00ADFBA5 /* NetworkDefinition.swift in Sources */,
 				CBD0A4E5287B35D200ADFBA5 /* ClientesCLIApp.swift in Sources */,
 				CBD0A4F4287B35EA00ADFBA5 /* Cliente.swift in Sources */,
-				CBD0A4FF287B373A00ADFBA5 /* ViewModel.swift in Sources */,
+				CBE104DD287DBEB300DBC3FB /* ClienteDetailVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

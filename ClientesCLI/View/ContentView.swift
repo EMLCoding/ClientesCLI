@@ -8,34 +8,60 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var vm = ViewModel()
+    @EnvironmentObject var clienteVM: ClienteVM
     var body: some View {
         NavigationView {
             List {
-                ForEach(vm.clientes) { cliente in
-                    NavigationLink {
-                        ClienteView(clienteVM: ClienteVM(loadCliente: cliente))
-                    } label: {
-                        ClienteRow(cliente: cliente)
-                    }
+                ForEach(clienteVM.clientes) { cliente in
+                    ClienteRow(cliente: cliente)
                 }
             }
+            .alert("Cliente encontrado \(clienteVM.nombrePrueba)", isPresented: $clienteVM.showAlertFindCliente, actions: {
+                Button("OK") {
+                    clienteVM.showAlertFindCliente = false
+                }
+            })
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        ClienteDetailView(clienteDetailVM: ClienteDetailVM(loadCliente: nil))
+                    } label: {
+                        Text("Crear")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Prueba") {
+                        Task {
+                            await clienteVM.getClienteByID(id: UUID(uuidString: "682b28ec-87fa-4d33-bfdb-ac0748d262c5")!)
+                        }
+                    }
+                }
+            })
             .navigationTitle("Clientes")
         }
-        .task {
-            await vm.getClientes()
-        }
-        
     }
 }
 
 struct ClienteRow: View {
+    @EnvironmentObject var clienteVM: ClienteVM
     let cliente: Cliente
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Nombre: \(cliente.nombre)")
-            Text("Apellidos: \(cliente.apellido)")
+        NavigationLink {
+            ClienteDetailView(clienteDetailVM: ClienteDetailVM(loadCliente: cliente))
+        } label: {
+            VStack(alignment: .leading) {
+                Text("Nombre: \(cliente.nombre)")
+                Text("Apellidos: \(cliente.apellido)")
+            }
+        }
+        .swipeActions {
+            Button("Delete") {
+                Task {
+                    try await clienteVM.deleteCliente(id: cliente.id!)
+                }
+            }
+            .tint(.red)
         }
     }
 }

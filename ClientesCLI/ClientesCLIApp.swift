@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ClientesCLIApp: App {
+    @StateObject var clienteVM = ClienteVM()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(clienteVM)
         }
     }
 }

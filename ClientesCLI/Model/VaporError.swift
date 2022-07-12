@@ -32,7 +32,7 @@ enum APIErrors:Error {
         case .general(let error):
             return "Error general \(error)."
         case .vapor(let reason):
-            return "Server error: \(reason)."
+            return "Error: \(reason)"
         case .process:
             return "Error de proceso."
         case .request:

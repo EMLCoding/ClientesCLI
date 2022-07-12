@@ -5,45 +5,65 @@
 //  Created by Eduardo Martin Lorenzo on 11/7/22.
 //
 
-import Foundation
+import SwiftUI
 
 final class ClienteVM: ObservableObject {
     
-    @Published var nombre = ""
-    @Published var apellido = ""
-    @Published var email = ""
+    @Published var clientes: [Cliente] = []
+    @Published var showAlertFindCliente = false
     
-    var cliente: Cliente?
-    var isEdition: Bool = false
+    // Es simplemente para la alerta que sale con la prueba de buscar un cliente por ID
+    @Published var nombrePrueba = ""
     
-    init(loadCliente: Cliente? = nil) {
-        if let cliente = loadCliente {
-            self.cliente = cliente
-            self.isEdition = true
-            self.nombre = cliente.nombre
-            self.apellido = cliente.apellido
-            self.email = cliente.email
-        } else {
-            self.isEdition = false
+    init() {
+        Task {
+            await getClientes()
         }
     }
     
-    func updateCliente(cliente: Cliente) async throws -> Bool{
+    @MainActor
+    func getClientes() async {
         do {
-            guard let cliente = validateCliente() else {
-                return false
+            clientes = try await ModelNetwork.shared.getClientes()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func getClienteByID(id: UUID) async {
+        do {
+            let response = try await ModelNetwork.shared.getClienteById(id: id)
+            nombrePrueba = response.nombre
+            showAlertFindCliente = true
+        } catch {
+            if let apiError = error as? APIErrors {
+                print(apiError.description)
+            } else {
+                print("ERROR PRUEBA GET CLIENTE \(error)")
             }
-            return try await ModelNetwork.shared.updateCliente(cliente: cliente)
+        }
+    }
+    
+    func addClientesList(cliente: Cliente) {
+        clientes.append(cliente)
+    }
+    
+    func updateClientesList(cliente: Cliente) {
+        if let index = clientes.firstIndex(where: { $0.id == cliente.id} ) {
+            clientes[index] = cliente
+        }
+    }
+    
+    @MainActor
+    func deleteCliente(id: UUID) async throws {
+        do {
+            if try await ModelNetwork.shared.deleteCliente(id: id) {
+                if let index = clientes.firstIndex(where: { $0.id == id} ) {
+                    clientes.remove(at: index)
+                }
+            }
         } catch {
             print("Error updating data: \(error)")
-            return false
         }
-    }
-    
-    func validateCliente() -> Cliente? {
-        cliente?.nombre = self.nombre
-        cliente?.apellido = self.apellido
-        cliente?.email = self.email
-        return cliente
     }
 }
