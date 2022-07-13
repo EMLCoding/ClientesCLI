@@ -12,6 +12,7 @@ final class ClienteDetailVM: ObservableObject {
     @Published var nombre = ""
     @Published var apellido = ""
     @Published var email = ""
+    @Published var imagen: UIImage?
     
     var cliente: Cliente?
     var isEdition: Bool = false
@@ -28,30 +29,47 @@ final class ClienteDetailVM: ObservableObject {
         }
     }
     
+    @MainActor
     func createCliente() async throws -> Cliente? {
         do {
             let cliente = prepareCliente()
             return try await ModelNetwork.shared.createCliente(cliente: cliente)
         } catch {
-            print("Error creating data: \(error)")
+            if let apiError = error as? APIErrors {
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al crear cliente", text: "\(apiError.description)", textButton: nil))
+            } else {
+                print("Error creating data: \(error)")
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al crear cliente", text: "\(error)", textButton: nil))
+            }
             return nil
         }
     }
     
+    @MainActor
     func updateCliente(cliente: Cliente) async throws -> Cliente? {
         do {
-            guard let cliente = validateCliente() else {
+            guard let cliente = validateCliente(), let image = imagen else {
                 return nil
             }
-            return try await ModelNetwork.shared.updateCliente(cliente: cliente)
+            
+            if let idCliente = cliente.id, try await ModelNetwork.shared.uploadImage(imagen: image, idCliente: idCliente) {
+                return try await ModelNetwork.shared.updateCliente(cliente: cliente)
+            } else {
+                return nil
+            }
         } catch {
-            print("Error updating data: \(error)")
+            if let apiError = error as? APIErrors {
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al actualizar un cliente", text: "\(apiError.description)", textButton: nil))
+            } else {
+                print("Error updating data: \(error)")
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al actualizar un cliente", text: "\(error)", textButton: nil))
+            }
             return nil
         }
     }
     
     func prepareCliente() -> Cliente {
-        return Cliente(id: nil, nombre: self.nombre, apellido: self.apellido, email: self.email, createAt: nil)
+        return Cliente(id: nil, nombre: self.nombre, apellido: self.apellido, email: self.email, foto: nil, createAt: nil)
     }
     
     func validateCliente() -> Cliente? {

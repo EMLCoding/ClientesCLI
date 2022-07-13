@@ -9,12 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var clienteVM: ClienteVM
+    
+    @State private var showAlert = false
+    @State private var alertData = AlertData.empty
+    
     var body: some View {
         NavigationView {
             List {
                 ForEach(clienteVM.clientes) { cliente in
                     ClienteRow(cliente: cliente)
                 }
+                if clienteVM.showButtonMoreClientes {
+                    Button("Cargar más") {
+                        clienteVM.cargarMasClientes()
+                    }
+                }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text(alertData.title), message: Text(alertData.text), dismissButton: .default(Text(alertData.textButton ?? "Aceptar")))
             }
             .alert("Cliente encontrado \(clienteVM.nombrePrueba)", isPresented: $clienteVM.showAlertFindCliente, actions: {
                 Button("OK") {
@@ -38,6 +50,12 @@ struct ContentView: View {
                 }
             })
             .navigationTitle("Clientes")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showAlert)) { notification in
+            if let data = notification.object as? AlertData {
+                showAlert = true
+                alertData = data
+            }
         }
     }
 }

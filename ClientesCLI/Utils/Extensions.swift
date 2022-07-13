@@ -14,3 +14,8 @@ extension DateFormatter {
         return formatter
     }()
 }
+
+extension Notification.Name {
+    static let showAlert = Notification.Name("showAlert")
+    static let hideAlert = Notification.Name("hideAlert")
+}

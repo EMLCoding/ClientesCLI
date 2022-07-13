@@ -18,8 +18,10 @@ var desa:URL = URL(string: "http://localhost:8080/api")!
 let urlBase = desa
 
 extension URL {
-    static let getClientes = urlBase.appendingPathComponent("clientes")
+    static let getClientes = urlBase.appendingPathComponent("clientes").appendingPathComponent("page")
     static let cliente = urlBase.appendingPathComponent("cliente")
+    static let uploadImage = urlBase.appendingPathComponent("clientes").appendingPathComponent("upload")
+    static let getImage = urlBase.appendingPathComponent("uploads").appendingPathComponent("img")
 }
 
 extension URLRequest {

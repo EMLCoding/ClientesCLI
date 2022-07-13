@@ -11,9 +11,13 @@ final class ClienteVM: ObservableObject {
     
     @Published var clientes: [Cliente] = []
     @Published var showAlertFindCliente = false
+    @Published var showButtonMoreClientes = false
+    
+    var page = 0
     
     // Es simplemente para la alerta que sale con la prueba de buscar un cliente por ID
     @Published var nombrePrueba = ""
+    
     
     init() {
         Task {
@@ -24,9 +28,22 @@ final class ClienteVM: ObservableObject {
     @MainActor
     func getClientes() async {
         do {
-            clientes = try await ModelNetwork.shared.getClientes()
+            let clienteResponse = try await ModelNetwork.shared.getClientes(page: page)
+            clientes.append(contentsOf: clienteResponse.content)
+            if (!clienteResponse.last) {
+                showButtonMoreClientes = true
+                page += 1
+            } else {
+                showButtonMoreClientes = false
+            }
         } catch {
             print("\(error)")
+        }
+    }
+    
+    func cargarMasClientes() {
+        Task {
+            await getClientes()
         }
     }
     
@@ -37,9 +54,10 @@ final class ClienteVM: ObservableObject {
             showAlertFindCliente = true
         } catch {
             if let apiError = error as? APIErrors {
-                print(apiError.description)
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al obtener un cliente", text: "\(apiError.description)", textButton: nil))
             } else {
-                print("ERROR PRUEBA GET CLIENTE \(error)")
+                print("Error updating data: \(error)")
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al obtener un cliente", text: "\(error)", textButton: nil))
             }
         }
     }
@@ -63,7 +81,12 @@ final class ClienteVM: ObservableObject {
                 }
             }
         } catch {
-            print("Error updating data: \(error)")
+            if let apiError = error as? APIErrors {
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al eliminar un cliente", text: "\(apiError.description)", textButton: nil))
+            } else {
+                print("Error updating data: \(error)")
+                NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al eliminar un cliente", text: "\(error)", textButton: nil))
+            }
         }
     }
 }

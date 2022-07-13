@@ -12,13 +12,54 @@ struct ClienteDetailView: View {
     @EnvironmentObject var clienteVM: ClienteVM
     @ObservedObject var clienteDetailVM: ClienteDetailVM
     @State var showAlert = false
+    @State var showCambiarImagen = false
     
     var body: some View {
         Form {
-            TextField("Nombre", text: $clienteDetailVM.nombre)
-            TextField("Apellido", text: $clienteDetailVM.apellido)
-            TextField("Email", text: $clienteDetailVM.email)
-                .keyboardType(.emailAddress)
+            Section {
+                TextField("Nombre", text: $clienteDetailVM.nombre)
+                TextField("Apellido", text: $clienteDetailVM.apellido)
+                TextField("Email", text: $clienteDetailVM.email)
+                    .keyboardType(.emailAddress)
+            } header: {
+                Text("Datos del cliente")
+            }
+            if let cliente = clienteDetailVM.cliente {
+                Section {
+                    VStack {
+                        if let newImage = clienteDetailVM.imagen {
+                            Image(uiImage: newImage)
+                                .resizable()
+                                .scaledToFit()
+                                .cornerRadius(20)
+                        } else {
+                            if let foto = cliente.foto {
+                                AsyncImage(url: .getImage.appendingPathComponent(foto), scale: 2) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .cornerRadius(20)
+                                } placeholder: {
+                                    Color.gray
+                                }
+                            } else {
+                                Text("Selecciona una imagen")
+                            }
+                        }
+                        
+                        Button(cliente.foto == nil ? "Añadir imagen" : "Cambiar imagen") {
+                            showCambiarImagen.toggle()
+                        }
+                        .padding(.vertical)
+                    }
+                } header: {
+                    Text("Imagen de perfil")
+                }
+                .sheet(isPresented: $showCambiarImagen) {
+                    PHPickerView(cover: $clienteDetailVM.imagen)
+                }
+            }
+            
         }
         .alert(clienteDetailVM.isEdition ? "Cliente actualizado correctamente" : "Cliente creado correctamente", isPresented: $showAlert, actions: {
             Button {

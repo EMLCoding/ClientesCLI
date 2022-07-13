@@ -5,14 +5,14 @@
 //  Created by Eduardo Martin Lorenzo on 10/7/22.
 //
 
-import Foundation
+import SwiftUI
 
 final class ModelNetwork {
     static let shared = ModelNetwork()
     
-    func getClientes() async throws -> [Cliente] {
-        guard let request = URLRequest.getRequest(url: .getClientes) else { throw APIErrors.request }
-        return try await getJSON(request: request, output: [Cliente].self)
+    func getClientes(page: Int) async throws -> ClientePagination {
+        guard let request = URLRequest.getRequest(url: .getClientes.appendingPathComponent("\(page)")) else { throw APIErrors.request }
+        return try await getJSON(request: request, output: ClientePagination.self)
     }
     
     func getClienteById(id: UUID) async throws -> Cliente {
@@ -39,6 +39,38 @@ final class ModelNetwork {
     
     func deleteCliente(id: UUID) async throws -> Bool {
         let request = URLRequest.getRequest(url: .cliente.appendingPathComponent(id.uuidString), method: .delete)
+        guard let request = request else { throw APIErrors.request }
+        return try await send(request: request)
+    }
+    
+    func uploadImage(imagen: UIImage, idCliente: UUID) async throws -> Bool {
+        var request = URLRequest.getRequest(url: .uploadImage, method: .post)
+        
+        let boundary = UUID().uuidString
+        
+        let fileParam = "archivo"
+        let idParam = "id"
+        var body = Data()
+        let imageData = imagen.jpegData(compressionQuality: 0.5)
+        request?.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(idParam)\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(idCliente)".data(using: .utf8)!)
+        body.append("\r\n".data(using: .utf8)!)
+        
+        
+        let filename = "profile.jpeg"
+        let mimetype = "image/jpeg"
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(fileParam)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData!)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request?.httpBody = body
+        
         guard let request = request else { throw APIErrors.request }
         return try await send(request: request)
     }
