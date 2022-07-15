@@ -22,6 +22,7 @@ extension URL {
     static let cliente = urlBase.appendingPathComponent("cliente")
     static let uploadImage = urlBase.appendingPathComponent("clientes").appendingPathComponent("upload")
     static let getImage = urlBase.appendingPathComponent("uploads").appendingPathComponent("img")
+    static let getRegiones = urlBase.appendingPathComponent("clientes").appendingPathComponent("regiones")
 }
 
 extension URLRequest {

@@ -9,10 +9,13 @@ import SwiftUI
 
 final class ClienteDetailVM: ObservableObject {
     
+    @Published var regiones: [Region] = []
+    
     @Published var nombre = ""
     @Published var apellido = ""
     @Published var email = ""
     @Published var imagen: UIImage?
+    @Published var regionSeleccionada: Region?
     
     var cliente: Cliente?
     var isEdition: Bool = false
@@ -24,16 +27,42 @@ final class ClienteDetailVM: ObservableObject {
             self.nombre = cliente.nombre
             self.apellido = cliente.apellido
             self.email = cliente.email
+            self.regionSeleccionada = cliente.region
         } else {
             self.isEdition = false
+        }
+        
+        Task {
+            try await getRegiones()
+        }
+    }
+    
+    func prueba() {
+        if let regionSeleccionada = regionSeleccionada {
+            print(regionSeleccionada.nombre)
+        } else {
+            print("NO HAY REGION SELECCIONADA")
+        }
+    }
+    
+    @MainActor
+    func getRegiones() async throws {
+        do {
+            regiones = try await ModelNetwork.shared.getRegiones()
+        } catch {
+            print("\(error)")
         }
     }
     
     @MainActor
     func createCliente() async throws -> Cliente? {
         do {
-            let cliente = prepareCliente()
-            return try await ModelNetwork.shared.createCliente(cliente: cliente)
+            if let region = regionSeleccionada {
+                let cliente = prepareCliente(regionCliente: region)
+                return try await ModelNetwork.shared.createCliente(cliente: cliente)
+            } else {
+                return nil
+            }
         } catch {
             if let apiError = error as? APIErrors {
                 NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al crear cliente", text: "\(apiError.description)", textButton: nil))
@@ -68,14 +97,17 @@ final class ClienteDetailVM: ObservableObject {
         }
     }
     
-    func prepareCliente() -> Cliente {
-        return Cliente(id: nil, nombre: self.nombre, apellido: self.apellido, email: self.email, foto: nil, createAt: nil)
+    func prepareCliente(regionCliente: Region) -> Cliente {
+        return Cliente(id: nil, nombre: self.nombre, apellido: self.apellido, email: self.email, foto: nil, createAt: nil, region: regionCliente)
     }
     
     func validateCliente() -> Cliente? {
         cliente?.nombre = self.nombre
         cliente?.apellido = self.apellido
         cliente?.email = self.email
+        if let regionSeleccionada = regionSeleccionada {
+            cliente?.region = regionSeleccionada
+        }
         return cliente
     }
 }

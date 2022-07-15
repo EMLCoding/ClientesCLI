@@ -26,6 +26,7 @@ struct Cliente: Codable, Identifiable {
     var email: String
     let foto: String?
     let createAt: Date?
+    var region: Region
 }
 
 struct Pageable: Codable {

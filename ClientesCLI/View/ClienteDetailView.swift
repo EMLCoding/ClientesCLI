@@ -24,6 +24,31 @@ struct ClienteDetailView: View {
             } header: {
                 Text("Datos del cliente")
             }
+            
+            Section {
+                Menu {
+                    Picker(selection: $clienteDetailVM.regionSeleccionada, label: Text("Regiones")) {
+                        ForEach(clienteDetailVM.regiones) { region in
+                            Text("\(region.nombre)").tag(region as Region?)
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Text("Región")
+                        
+                        Spacer()
+                        
+                        Text("\(clienteDetailVM.regionSeleccionada?.nombre ?? "")")
+                    }
+                }
+            } header: {
+                Text("Regiones")
+            }
+            
+            Button("Prueba") {
+                clienteDetailVM.prueba()
+            }
+            
             if let cliente = clienteDetailVM.cliente {
                 Section {
                     VStack {

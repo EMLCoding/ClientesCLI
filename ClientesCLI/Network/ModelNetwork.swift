@@ -75,6 +75,11 @@ final class ModelNetwork {
         return try await send(request: request)
     }
     
+    func getRegiones() async throws -> [Region] {
+        guard let request = URLRequest.getRequest(url: .getRegiones) else { throw APIErrors.request }
+        return try await getJSON(request: request, output: [Region].self)
+    }
+    
     func getJSON<Output:Codable>(request:URLRequest, output:Output.Type) async throws -> Output {
         do {
             let decoder = getDecoder()
