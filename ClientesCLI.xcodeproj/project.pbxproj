@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB02481E288BFDE700BDC105 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB02481D288BFDE700BDC105 /* LoginView.swift */; };
+		CB024820288BFDF300BDC105 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB02481F288BFDF300BDC105 /* LoginVM.swift */; };
+		CB024822288C0CF600BDC105 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB024821288C0CF600BDC105 /* Usuario.swift */; };
+		CB024824288C10A300BDC105 /* SecKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB024823288C10A300BDC105 /* SecKeyStore.swift */; };
 		CB2AB8E4287F245F004E5344 /* PHPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2AB8E3287F245F004E5344 /* PHPickerView.swift */; };
 		CB33D39A287E1AA9004C62F1 /* AlertData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33D399287E1AA9004C62F1 /* AlertData.swift */; };
 		CB97D0CC2881AA1A00D2B70C /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB97D0CB2881AA1A00D2B70C /* Region.swift */; };
@@ -26,6 +30,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB02481D288BFDE700BDC105 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		CB02481F288BFDF300BDC105 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
+		CB024821288C0CF600BDC105 /* Usuario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usuario.swift; sourceTree = "<group>"; };
+		CB024823288C10A300BDC105 /* SecKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyStore.swift; sourceTree = "<group>"; };
 		CB2AB8E3287F245F004E5344 /* PHPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerView.swift; sourceTree = "<group>"; };
 		CB33D399287E1AA9004C62F1 /* AlertData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertData.swift; sourceTree = "<group>"; };
 		CB97D0CB2881AA1A00D2B70C /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
@@ -102,6 +110,7 @@
 				CBD0A4F5287B360800ADFBA5 /* VaporError.swift */,
 				CB33D399287E1AA9004C62F1 /* AlertData.swift */,
 				CB97D0CB2881AA1A00D2B70C /* Region.swift */,
+				CB024821288C0CF600BDC105 /* Usuario.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -120,6 +129,7 @@
 			children = (
 				CBD0A4E6287B35D200ADFBA5 /* ContentView.swift */,
 				CB9E96F8287C75EE00F3D8F0 /* ClienteDetailView.swift */,
+				CB02481D288BFDE700BDC105 /* LoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -129,6 +139,7 @@
 			children = (
 				CB9E96FA287C75FA00F3D8F0 /* ClienteVM.swift */,
 				CBE104DC287DBEB300DBC3FB /* ClienteDetailVM.swift */,
+				CB02481F288BFDF300BDC105 /* LoginVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -139,6 +150,7 @@
 				CBDE239F287B6154004FAD91 /* Extensions.swift */,
 				CB9E96FC287C7B6F00F3D8F0 /* Codable.swift */,
 				CB2AB8E3287F245F004E5344 /* PHPickerView.swift */,
+				CB024823288C10A300BDC105 /* SecKeyStore.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -216,7 +228,11 @@
 				CBD0A4F9287B362600ADFBA5 /* ModelNetwork.swift in Sources */,
 				CBD0A4E7287B35D200ADFBA5 /* ContentView.swift in Sources */,
 				CB9E96F9287C75EE00F3D8F0 /* ClienteDetailView.swift in Sources */,
+				CB02481E288BFDE700BDC105 /* LoginView.swift in Sources */,
+				CB024822288C0CF600BDC105 /* Usuario.swift in Sources */,
+				CB024820288BFDF300BDC105 /* LoginVM.swift in Sources */,
 				CBD0A4F6287B360800ADFBA5 /* VaporError.swift in Sources */,
+				CB024824288C10A300BDC105 /* SecKeyStore.swift in Sources */,
 				CB33D39A287E1AA9004C62F1 /* AlertData.swift in Sources */,
 				CB2AB8E4287F245F004E5344 /* PHPickerView.swift in Sources */,
 				CBDE23A0287B6154004FAD91 /* Extensions.swift in Sources */,

@@ -10,7 +10,7 @@ import SwiftUI
 struct ClienteDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var clienteVM: ClienteVM
-    @ObservedObject var clienteDetailVM: ClienteDetailVM
+    @StateObject var clienteDetailVM: ClienteDetailVM
     @State var showAlert = false
     @State var showCambiarImagen = false
     

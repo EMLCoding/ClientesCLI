@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var clienteVM: ClienteVM
+    @EnvironmentObject var loginVM: LoginVM
     
     @State private var showAlert = false
     @State private var alertData = AlertData.empty
@@ -35,10 +36,18 @@ struct ContentView: View {
             })
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        ClienteDetailView(clienteDetailVM: ClienteDetailVM(loadCliente: nil))
-                    } label: {
-                        Text("Crear")
+                    if !loginVM.isLogged {
+                        NavigationLink {
+                            LoginView()
+                        } label: {
+                            Text("Iniciar sesion")
+                        }
+                    } else {
+                        NavigationLink {
+                            ClienteDetailView(clienteDetailVM: ClienteDetailVM(loadCliente: nil))
+                        } label: {
+                            Text("Crear")
+                        }
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {

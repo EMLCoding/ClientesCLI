@@ -16,7 +16,7 @@ final class ModelNetwork {
     }
     
     func getClienteById(id: UUID) async throws -> Cliente {
-        let request = URLRequest.getRequest(url: .cliente.appendingPathComponent(id.uuidString), method: .get)
+        let request = URLRequest.getRequestJWT(url: .cliente.appendingPathComponent(id.uuidString), method: .get)
         guard let request = request else { throw APIErrors.request }
         return try await getJSON(request: request, output: Cliente.self) 
     }
@@ -80,6 +80,20 @@ final class ModelNetwork {
         return try await getJSON(request: request, output: [Region].self)
     }
     
+    func login(username: String, password: String) async throws {
+        guard var request = URLRequest.getRequestLogin(url: .login, method: .post) else { throw APIErrors.request }
+        
+        
+        let params: Data = "username=edu&password=12345&grant_type=password".data(using: .utf8)!
+        request.httpBody = params
+        //let (data, response) = try await URLSession.shared.data(for: request)
+        //guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw APIErrors.process }
+        let loginResponse = try await getJSON(request: request, output: LoginRequest.self)
+        print(loginResponse)
+        let token = Data(loginResponse.accessToken.utf8)
+        SecKeyStore.shared.storeKey(key: token, label: "JWTTOKEN")
+    }
+    
     func getJSON<Output:Codable>(request:URLRequest, output:Output.Type) async throws -> Output {
         do {
             let decoder = getDecoder()
@@ -92,6 +106,10 @@ final class ModelNetwork {
                     throw APIErrors.json(error)
                 }
             } else {
+                if (response.statusCode == 401 || response.statusCode == 403) {
+                    print("ACCESO NO AUTORIZADO")
+                    // Aqui se puede sacar una alerta de acceso no autorizado y poner el boton para ir al login
+                }
                 do {
                     let error = try decoder.decode(VaporError.self, from: data)
                     throw APIErrors.vapor(error.reason)
