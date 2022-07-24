@@ -46,7 +46,7 @@ extension URLRequest {
         return request
     }
     
-    // Para las peticiones que necesitan estar logueado
+    // Para las peticiones que necesitan estar logueado 
     static func getRequestJWT(url:URL, method:HTTPMethod = .get) -> URLRequest? {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue

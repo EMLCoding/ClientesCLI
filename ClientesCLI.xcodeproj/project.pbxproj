@@ -13,6 +13,7 @@
 		CB024824288C10A300BDC105 /* SecKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB024823288C10A300BDC105 /* SecKeyStore.swift */; };
 		CB2AB8E4287F245F004E5344 /* PHPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2AB8E3287F245F004E5344 /* PHPickerView.swift */; };
 		CB33D39A287E1AA9004C62F1 /* AlertData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33D399287E1AA9004C62F1 /* AlertData.swift */; };
+		CB558385288C90C50023A2B2 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB558384288C90C40023A2B2 /* JWT.swift */; };
 		CB97D0CC2881AA1A00D2B70C /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB97D0CB2881AA1A00D2B70C /* Region.swift */; };
 		CB9E96F9287C75EE00F3D8F0 /* ClienteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E96F8287C75EE00F3D8F0 /* ClienteDetailView.swift */; };
 		CB9E96FB287C75FA00F3D8F0 /* ClienteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9E96FA287C75FA00F3D8F0 /* ClienteVM.swift */; };
@@ -36,6 +37,7 @@
 		CB024823288C10A300BDC105 /* SecKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyStore.swift; sourceTree = "<group>"; };
 		CB2AB8E3287F245F004E5344 /* PHPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerView.swift; sourceTree = "<group>"; };
 		CB33D399287E1AA9004C62F1 /* AlertData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertData.swift; sourceTree = "<group>"; };
+		CB558384288C90C40023A2B2 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
 		CB97D0CB2881AA1A00D2B70C /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		CB9E96F8287C75EE00F3D8F0 /* ClienteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClienteDetailView.swift; sourceTree = "<group>"; };
 		CB9E96FA287C75FA00F3D8F0 /* ClienteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClienteVM.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				CBD0A4F8287B362600ADFBA5 /* ModelNetwork.swift */,
 				CBD0A4FA287B365C00ADFBA5 /* NetworkDefinition.swift */,
+				CB558384288C90C40023A2B2 /* JWT.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				CBD0A4FB287B365C00ADFBA5 /* NetworkDefinition.swift in Sources */,
 				CBD0A4E5287B35D200ADFBA5 /* ClientesCLIApp.swift in Sources */,
 				CB97D0CC2881AA1A00D2B70C /* Region.swift in Sources */,
+				CB558385288C90C50023A2B2 /* JWT.swift in Sources */,
 				CBD0A4F4287B35EA00ADFBA5 /* Cliente.swift in Sources */,
 				CBE104DD287DBEB300DBC3FB /* ClienteDetailVM.swift in Sources */,
 			);

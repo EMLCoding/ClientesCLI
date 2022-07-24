@@ -43,17 +43,23 @@ struct ContentView: View {
                             Text("Iniciar sesion")
                         }
                     } else {
-                        NavigationLink {
-                            ClienteDetailView(clienteDetailVM: ClienteDetailVM(loadCliente: nil))
-                        } label: {
-                            Text("Crear")
+                        HStack {
+                            NavigationLink {
+                                ClienteDetailView(clienteDetailVM: ClienteDetailVM(loadCliente: nil))
+                            } label: {
+                                Text("Crear")
+                            }
+                            
+                            if let user = loginVM.userLogged {
+                                Text("User: \(user.userName)")
+                            }
                         }
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Prueba") {
                         Task {
-                            await clienteVM.getClienteByID(id: UUID(uuidString: "682b28ec-87fa-4d33-bfdb-ac0748d262c5")!)
+                            await clienteVM.getClienteByID(id: UUID(uuidString: "38f53f22-8de6-49c1-8e96-a77bc932fafb")!)
                         }
                     }
                 }

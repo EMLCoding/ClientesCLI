@@ -43,3 +43,23 @@ struct LoginRequest: Codable {
         case scope, jti
     }
 }
+
+struct UserLoggedJWT: Codable {
+    let infoAdicional: String
+    let userName: String
+    let scope: [String]
+    let exp: Int
+    let nombreUsuario: String
+    let roles: [String]
+    let jti: String
+    let clientId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case infoAdicional = "info_adicional"
+        case userName = "user_name"
+        case nombreUsuario = "nombre_usuario"
+        case clientId = "client_id"
+        case roles = "authorities"
+        case scope, exp, jti
+    }
+}
