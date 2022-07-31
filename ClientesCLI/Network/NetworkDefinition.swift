@@ -26,6 +26,9 @@ extension URL {
     static let getImage = urlBase.appendingPathComponent("uploads").appendingPathComponent("img")
     static let getRegiones = urlBase.appendingPathComponent("clientes").appendingPathComponent("regiones")
     static let login = urlLogin.appendingPathComponent("oauth").appendingPathComponent("token")
+    static let getFacturas = urlBase.appendingPathComponent("facturas")
+    static let createFactura = urlBase.appendingPathComponent("facturas")
+    static let getProductos = urlBase.appendingPathComponent("productos").appendingPathComponent("filtrar-productos")
 }
 
 extension URLRequest {

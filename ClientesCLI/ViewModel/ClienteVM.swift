@@ -56,7 +56,6 @@ final class ClienteVM: ObservableObject {
             if let apiError = error as? APIErrors {
                 NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al obtener un cliente", text: "\(apiError.description)", textButton: nil))
             } else {
-                print("Error updating data: \(error)")
                 NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al obtener un cliente", text: "\(error)", textButton: nil))
             }
         }

@@ -27,6 +27,7 @@ struct Cliente: Codable, Identifiable {
     let foto: String?
     let createAt: Date?
     var region: Region
+    var facturas: [Factura]?
 }
 
 struct Pageable: Codable {

@@ -14,6 +14,8 @@ struct ClienteDetailView: View {
     @State var showAlert = false
     @State var showCambiarImagen = false
     
+    @State var verFacturas = false
+    
     var body: some View {
         Form {
             Section {
@@ -45,8 +47,8 @@ struct ClienteDetailView: View {
                 Text("Regiones")
             }
             
-            Button("Prueba") {
-                clienteDetailVM.prueba()
+            Button("Ver Facturas") {
+                verFacturas = true
             }
             
             if let cliente = clienteDetailVM.cliente {
@@ -86,6 +88,9 @@ struct ClienteDetailView: View {
             }
             
         }
+        .background(
+            NavigationLink("", destination: FacturasView(cliente: clienteDetailVM.cliente!), isActive: $verFacturas)
+        )
         .alert(clienteDetailVM.isEdition ? "Cliente actualizado correctamente" : "Cliente creado correctamente", isPresented: $showAlert, actions: {
             Button {
                 showAlert = false

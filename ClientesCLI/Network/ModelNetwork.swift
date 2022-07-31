@@ -22,7 +22,7 @@ final class ModelNetwork {
     }
     
     func createCliente(cliente: Cliente) async throws -> Cliente {
-        var request = URLRequest.getRequest(url: .cliente, method: .post)
+        var request = URLRequest.getRequestJWT(url: .cliente, method: .post)
         let encoder = getEncoder()
         request?.httpBody = try? encoder.encode(cliente)
         guard let request = request else { throw APIErrors.request }
@@ -30,7 +30,7 @@ final class ModelNetwork {
     }
     
     func updateCliente(cliente: Cliente) async throws -> Cliente {
-        var request = URLRequest.getRequest(url: .cliente.appendingPathComponent(cliente.id?.uuidString ?? ""), method: .put)
+        var request = URLRequest.getRequestJWT(url: .cliente.appendingPathComponent(cliente.id?.uuidString ?? ""), method: .put)
         let encoder = getEncoder()
         request?.httpBody = try? encoder.encode(cliente)
         guard let request = request else { throw APIErrors.request }
@@ -38,13 +38,13 @@ final class ModelNetwork {
     }
     
     func deleteCliente(id: UUID) async throws -> Bool {
-        let request = URLRequest.getRequest(url: .cliente.appendingPathComponent(id.uuidString), method: .delete)
+        let request = URLRequest.getRequestJWT(url: .cliente.appendingPathComponent(id.uuidString), method: .delete)
         guard let request = request else { throw APIErrors.request }
         return try await send(request: request)
     }
     
     func uploadImage(imagen: UIImage, idCliente: UUID) async throws -> Bool {
-        var request = URLRequest.getRequest(url: .uploadImage, method: .post)
+        var request = URLRequest.getRequestJWT(url: .uploadImage, method: .post)
         
         let boundary = UUID().uuidString
         
@@ -76,8 +76,31 @@ final class ModelNetwork {
     }
     
     func getRegiones() async throws -> [Region] {
-        guard let request = URLRequest.getRequest(url: .getRegiones) else { throw APIErrors.request }
+        guard let request = URLRequest.getRequestJWT(url: .getRegiones) else { throw APIErrors.request }
         return try await getJSON(request: request, output: [Region].self)
+    }
+    
+    func getProductosBy(nombre: String) async throws -> [Producto] {
+        if nombre.isEmpty {
+            guard let request = URLRequest.getRequestJWT(url: .getProductos) else { throw APIErrors.request }
+            return try await getJSON(request: request, output: [Producto].self)
+        } else {
+            guard let request = URLRequest.getRequestJWT(url: .getProductos.appendingPathComponent(nombre)) else { throw APIErrors.request }
+            return try await getJSON(request: request, output: [Producto].self)
+        }
+    }
+    
+    func getFacturaBy(id: Int) async throws -> Factura {
+        guard let request = URLRequest.getRequestJWT(url: .getFacturas.appendingPathComponent(String(id))) else { throw APIErrors.request }
+        return try await getJSON(request: request, output: Factura.self)
+    }
+    
+    func createFactura(factura: Factura) async throws -> Factura {
+        var request = URLRequest.getRequestJWT(url: .createFactura, method: .post)
+        let encoder = getEncoder()
+        request?.httpBody = try? encoder.encode(factura)
+        guard let request = request else { throw APIErrors.request }
+        return try await getJSON(request: request, output: Factura.self)
     }
     
     func login(username: String, password: String) async throws {

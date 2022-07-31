@@ -77,15 +77,15 @@ final class ClienteDetailVM: ObservableObject {
     @MainActor
     func updateCliente(cliente: Cliente) async throws -> Cliente? {
         do {
-            guard let cliente = validateCliente(), let image = imagen else {
+            guard let cliente = validateCliente(), let idCliente = cliente.id else {
                 return nil
             }
             
-            if let idCliente = cliente.id, try await ModelNetwork.shared.uploadImage(imagen: image, idCliente: idCliente) {
-                return try await ModelNetwork.shared.updateCliente(cliente: cliente)
-            } else {
-                return nil
+            if let image = imagen {
+                let _ = try await ModelNetwork.shared.uploadImage(imagen: image, idCliente: idCliente)
             }
+            
+            return try await ModelNetwork.shared.updateCliente(cliente: cliente)
         } catch {
             if let apiError = error as? APIErrors {
                 NotificationCenter.default.post(name: .showAlert, object: AlertData(title: "Error al actualizar un cliente", text: "\(apiError.description)", textButton: nil))
@@ -98,7 +98,7 @@ final class ClienteDetailVM: ObservableObject {
     }
     
     func prepareCliente(regionCliente: Region) -> Cliente {
-        return Cliente(id: nil, nombre: self.nombre, apellido: self.apellido, email: self.email, foto: nil, createAt: nil, region: regionCliente)
+        return Cliente(id: nil, nombre: self.nombre, apellido: self.apellido, email: self.email, foto: nil, createAt: nil, region: regionCliente, facturas: [])
     }
     
     func validateCliente() -> Cliente? {
